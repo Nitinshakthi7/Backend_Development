@@ -1,6 +1,28 @@
 {
   "dependencies": {
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "mongodb": "^7.0.0",
+    "mongoose": "^8.19.3",
     "yargs": "^18.0.0"
-  }
+  },
+  "name": "backend_development",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nitinshakthi7/Backend_Development.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Nitinshakthi7/Backend_Development/issues"
+  },
+  "homepage": "https://github.com/Nitinshakthi7/Backend_Development#readme"
 }
