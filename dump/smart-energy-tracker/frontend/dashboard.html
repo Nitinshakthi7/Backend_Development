@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Smart Energy Tracker</title>
+  <link rel="stylesheet" href="css/dashboard-white.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <!-- Chart.js for visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Anime.js for animations -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+</head>
+<body>
+  
+  <!-- Fixed Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-left">
+        <div class="logo">⚡ Energy Tracker</div>
+        <div class="nav-tabs">
+          <a href="#" class="nav-tab active" data-view="overview">Overview</a>
+          <a href="#" class="nav-tab" data-view="analytics">Analytics</a>
+          <a href="#" class="nav-tab" data-view="devices">Devices</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <div class="period-selector">
+          <select id="periodSelect" class="period-dropdown">
+            <option value="today">Today</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+            <option value="year">This Year</option>
+          </select>
+        </div>
+        <div class="user-menu">
+          <span class="user-name" id="userName">Loading...</span>
+          <button onclick="logout()" class="btn-logout">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Dashboard Container -->
+  <main class="dashboard-container">
+    
+    <!-- Page Header -->
+    <header class="page-header">
+      <div class="header-content">
+        <h1 class="page-title">Energy Dashboard</h1>
+        <p class="page-subtitle">Monitor and optimize your energy consumption in real-time</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline" onclick="refreshDashboard()">
+          <span class="refresh-icon">↻</span> Refresh
+        </button>
+        <button class="btn btn-primary" onclick="showExportModal()">
+          <span>📊</span> Export Report
+        </button>
+      </div>
+    </header>
+
+    <!-- Quick Stats Cards -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        
+        <!-- Today's Usage Card -->
+        <div class="stat-card animate-on-scroll" data-animation="slideUp">
+          <div class="stat-header">
+            <div class="stat-icon-wrapper blue">
+              <span class="stat-icon">📊</span>
+            </div>
+            <span class="stat-label">Today's Usage</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-value">
+              <span id="todayUsage" class="counter">0</span>
+              <span class="stat-unit">kWh</span>
+            </div>
+            <div class="stat-change positive">
+              <span class="change-icon">↓</span>
+              <span>2.5% from yesterday</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total Cost Card -->
+        <div class="stat-card animate-on-scroll" data-animation="slideUp" data-delay="100">
+          <div class="stat-header">
+            <div class="stat-icon-wrapper green">
+              <span class="stat-icon">💰</span>
+            </div>
+            <span class="stat-label">Total Cost</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-value">
+              <span class="currency">₹</span>
+              <span id="totalCost" class="counter">0</span>
+            </div>
+            <div class="stat-change positive">
+              <span class="change-icon">↓</span>
+              <span>5.2% this month</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carbon Footprint Card -->
+        <div class="stat-card animate-on-scroll" data-animation="slideUp" data-delay="200">
+          <div class="stat-header">
+            <div class="stat-icon-wrapper green-eco">
+              <span class="stat-icon">🌱</span>
+            </div>
+            <span class="stat-label">Carbon Footprint</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-value">
+              <span id="carbonKg" class="counter">0</span>
+              <span class="stat-unit">kg CO₂</span>
+            </div>
+            <div class="stat-info">
+              <span id="treesEquiv">0</span> trees to offset
+            </div>
+          </div>
+        </div>
+
+        <!-- Energy Streak Card -->
+        <div class="stat-card animate-on-scroll" data-animation="slideUp" data-delay="300">
+          <div class="stat-header">
+            <div class="stat-icon-wrapper orange">
+              <span class="stat-icon">🔥</span>
+            </div>
+            <span class="stat-label">Savings Streak</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-value">
+              <span id="streakDays" class="counter">0</span>
+              <span class="stat-unit">Days</span>
+            </div>
+            <div class="stat-info">Keep it going! 💪</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <div class="content-grid">
+
+      <!-- Left Column -->
+      <div class="left-column">
+
+        <!-- Live Energy Meter -->
+        <section class="card meter-card animate-on-scroll" data-animation="fadeIn" data-delay="400">
+          <div class="card-header">
+            <h3 class="card-title">⚡ Live Energy Monitor</h3>
+            <div class="live-indicator">
+              <span class="pulse-dot"></span>
+              <span class="live-text">Live</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="meter-container">
+              <canvas id="meterCanvas" width="300" height="300"></canvas>
+              <div class="meter-center">
+                <div class="current-watts">
+                  <span id="currentWatts" class="watts-number">0</span>
+                  <span class="watts-unit">W</span>
+                </div>
+                <div class="meter-status" id="meterStatus">Normal</div>
+              </div>
+            </div>
+            <div class="meter-legend">
+              <div class="legend-item">
+                <span class="legend-dot green"></span>
+                <span>Low (0-500W)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot yellow"></span>
+                <span>Medium (500-1500W)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot red"></span>
+                <span>High (1500W+)</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Top Appliances Chart -->
+        <section class="card chart-card animate-on-scroll" data-animation="fadeIn" data-delay="500">
+          <div class="card-header">
+            <h3 class="card-title">📈 Top Energy Consumers</h3>
+            <button class="btn-icon" onclick="toggleChartView('appliances')">
+              <span>⋮</span>
+            </button>
+          </div>
+          <div class="card-body">
+            <canvas id="applianceChart" height="280"></canvas>
+          </div>
+          <div class="chart-footer">
+            <div class="chart-summary">
+              <span class="summary-label">Top Consumer:</span>
+              <span class="summary-value" id="topConsumer">-</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Energy Timeline Chart -->
+        <section class="card chart-card animate-on-scroll" data-animation="fadeIn" data-delay="600">
+          <div class="card-header">
+            <h3 class="card-title">📊 24-Hour Energy Timeline</h3>
+            <div class="chart-controls">
+              <button class="btn-small active" data-timeline="24h">24H</button>
+              <button class="btn-small" data-timeline="7d">7D</button>
+              <button class="btn-small" data-timeline="30d">30D</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <canvas id="timelineChart" height="200"></canvas>
+          </div>
+        </section>
+
+        <!-- Heat Map Calendar -->
+        <section class="card heatmap-card animate-on-scroll" data-animation="fadeIn" data-delay="700">
+          <div class="card-header">
+            <h3 class="card-title">🗓️ Monthly Usage Heat Map</h3>
+            <div class="month-selector">
+              <button class="btn-icon" onclick="changeMonth(-1)">‹</button>
+              <span id="currentMonth">November 2025</span>
+              <button class="btn-icon" onclick="changeMonth(1)">›</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="heatmapContainer" class="heatmap-grid">
+              <!-- Dynamically generated heat map cells -->
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Right Column -->
+      <div class="right-column">
+
+        <!-- Alerts & Recommendations -->
+        <section class="card alerts-card animate-on-scroll" data-animation="slideInRight" data-delay="400">
+          <div class="card-header">
+            <h3 class="card-title">⚠️ Alerts & Tips</h3>
+            <span class="badge" id="alertCount">0</span>
+          </div>
+          <div class="card-body">
+            <div id="alertsList" class="alerts-list">
+              <!-- Alerts dynamically loaded -->
+              <div class="empty-state">
+                <span class="empty-icon">✓</span>
+                <p>No alerts! Everything is running smoothly.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Room Breakdown -->
+        <section class="card rooms-card animate-on-scroll" data-animation="slideInRight" data-delay="500">
+          <div class="card-header">
+            <h3 class="card-title">🏠 Room Breakdown</h3>
+          </div>
+          <div class="card-body">
+            <div id="roomsList" class="rooms-list">
+              <!-- Rooms dynamically loaded -->
+              <div class="room-item">
+                <div class="room-info">
+                  <span class="room-icon">🛋️</span>
+                  <div class="room-details">
+                    <div class="room-name">Living Room</div>
+                    <div class="room-devices">3 devices active</div>
+                  </div>
+                </div>
+                <div class="room-usage">
+                  <div class="usage-value">12.5 kWh</div>
+                  <div class="usage-bar">
+                    <div class="usage-fill" style="width: 65%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="card actions-card animate-on-scroll" data-animation="slideInRight" data-delay="600">
+          <div class="card-header">
+            <h3 class="card-title">⚡ Quick Actions</h3>
+          </div>
+          <div class="card-body">
+            <div class="actions-grid">
+              <button class="action-btn" onclick="addDevice()">
+                <span class="action-icon">➕</span>
+                <span class="action-label">Add Device</span>
+              </button>
+              <button class="action-btn" onclick="setGoal()">
+                <span class="action-icon">🎯</span>
+                <span class="action-label">Set Goal</span>
+              </button>
+              <button class="action-btn" onclick="viewHistory()">
+                <span class="action-icon">📜</span>
+                <span class="action-label">View History</span>
+              </button>
+              <button class="action-btn" onclick="shareReport()">
+                <span class="action-icon">🔗</span>
+                <span class="action-label">Share Report</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Sustainability Score -->
+        <section class="card score-card animate-on-scroll" data-animation="slideInRight" data-delay="700">
+          <div class="card-header">
+            <h3 class="card-title">🌍 Sustainability Score</h3>
+          </div>
+          <div class="card-body">
+            <div class="score-display">
+              <div class="score-circle">
+                <svg viewBox="0 0 100 100" class="score-svg">
+                  <circle cx="50" cy="50" r="45" class="score-bg"></circle>
+                  <circle cx="50" cy="50" r="45" class="score-progress" id="scoreCircle"></circle>
+                </svg>
+                <div class="score-text">
+                  <span id="sustainabilityScore" class="score-number">85</span>
+                  <span class="score-label">/100</span>
+                </div>
+              </div>
+              <div class="score-description">
+                <div class="score-rating excellent">Excellent! 🌟</div>
+                <p>You're doing great! Your energy usage is 15% below average.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Loading dashboard...</p>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/dashboard-complete.js"></script>
+
+  <script>
+    // Initialize dashboard on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      initializeDashboard();
+    });
+
+    // Period selector change
+    document.getElementById('periodSelect').addEventListener('change', (e) => {
+      loadDashboardData(e.target.value);
+    });
+
+    // Nav tab switching
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        e.target.classList.add('active');
+        switchView(e.target.dataset.view);
+      });
+    });
+
+    // Timeline chart controls
+    document.querySelectorAll('[data-timeline]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('[data-timeline]').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        updateTimeline(e.target.dataset.timeline);
+      });
+    });
+  </script>
+</body>
+</html>

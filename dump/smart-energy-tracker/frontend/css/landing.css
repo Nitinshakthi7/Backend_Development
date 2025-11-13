@@ -1,0 +1,788 @@
+/* GTA-Inspired Landing Page - White Theme with Neon Accents */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* GTA-Style Neon Colors */
+  --neon-blue: #00f0ff;
+  --neon-pink: #ff006e;
+  --neon-green: #00ff9f;
+  --neon-yellow: #ffea00;
+  
+  /* Base Colors */
+  --bg-white: #ffffff;
+  --bg-light: #f8f9fa;
+  --bg-dark: #0a0e27;
+  --text-primary: #0a0e27;
+  --text-secondary: #6c757d;
+  
+  /* Effects */
+  --glow-neon: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue);
+  --shadow-deep: 0 20px 60px rgba(0, 0, 0, 0.3);
+  --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: var(--bg-white);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Navigation - GTA Style */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid var(--neon-blue);
+  z-index: 1000;
+  transition: var(--transition-fast);
+}
+
+.navbar.scrolled {
+  box-shadow: var(--shadow-deep);
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--text-primary);
+}
+
+.glow-text {
+  text-shadow: 0 0 10px var(--neon-blue);
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+  }
+  50% {
+    text-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue), 0 0 60px var(--neon-blue);
+  }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.nav-link {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  letter-spacing: 1px;
+  position: relative;
+  transition: var(--transition-fast);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--neon-blue);
+  box-shadow: var(--glow-neon);
+  transition: var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--neon-blue);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Neon Buttons */
+.btn-nav {
+  padding: 12px 30px;
+  background: var(--bg-white);
+  border: 2px solid var(--neon-blue);
+  color: var(--neon-blue);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 0;
+  transition: var(--transition-fast);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.btn-nav:hover {
+  background: var(--neon-blue);
+  color: var(--bg-white);
+  box-shadow: var(--glow-neon);
+  transform: translateY(-2px);
+}
+
+/* Hero Section - Full Screen GTA Style */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+  overflow: hidden;
+}
+
+.parallax-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23e0f2fe" width="1200" height="800"/><g fill-opacity="0.1"><polygon fill="%23bae6fd" points="1200 0 0 800 1200 800"/></g></svg>');
+  background-size: cover;
+  will-change: transform;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 240, 255, 0.1) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 1000px;
+  padding: 0 20px;
+}
+
+.gta-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 30px;
+  letter-spacing: 3px;
+}
+
+.title-line {
+  display: block;
+  animation: title-slide-in 1s ease-out forwards;
+  opacity: 0;
+}
+
+.title-line:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.title-line:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+@keyframes title-slide-in {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.neon-text {
+  color: var(--neon-blue);
+  text-shadow: var(--glow-neon);
+  animation: neon-flicker 3s ease-in-out infinite;
+}
+
+@keyframes neon-flicker {
+  0%, 100% {
+    text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue);
+  }
+  50% {
+    text-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue), 0 0 60px var(--neon-blue);
+  }
+}
+
+.hero-tagline {
+  font-size: 1.4rem;
+  color: var(--text-secondary);
+  margin-bottom: 50px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  animation: fade-in-up 1s ease-out 0.8s forwards;
+  opacity: 0;
+}
+
+@keyframes fade-in-up {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.hero-cta {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  animation: fade-in-up 1s ease-out 1s forwards;
+  opacity: 0;
+}
+
+.btn-hero {
+  padding: 18px 50px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 0;
+  transition: var(--transition-fast);
+  letter-spacing: 2px;
+}
+
+.neon-btn-large {
+  background: var(--neon-blue);
+  color: var(--bg-white);
+  border: none;
+  box-shadow: var(--glow-neon);
+}
+
+.neon-btn-large:hover {
+  background: var(--bg-white);
+  color: var(--neon-blue);
+  border: 2px solid var(--neon-blue);
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
+}
+
+.btn-hero-outline {
+  background: transparent;
+  color: var(--text-primary);
+  border: 2px solid var(--text-primary);
+}
+
+.btn-hero-outline:hover {
+  background: var(--text-primary);
+  color: var(--bg-white);
+  transform: translateY(-5px);
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  animation: fade-in-up 1s ease-out 1.5s forwards;
+  opacity: 0;
+}
+
+.scroll-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.scroll-arrow {
+  font-size: 2rem;
+  color: var(--neon-blue);
+  animation: bounce-arrow 2s ease-in-out infinite;
+}
+
+@keyframes bounce-arrow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(15px);
+  }
+}
+
+/* Sections */
+.section {
+  position: relative;
+  padding: 120px 0;
+  overflow: hidden;
+}
+
+.section-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-white) 100%);
+  opacity: 0.5;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.section-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--text-secondary);
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.neon-tag {
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px var(--neon-blue);
+}
+
+.gta-heading {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  font-size: 1.3rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Feature Cards - GTA Style */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  position: relative;
+  z-index: 10;
+}
+
+.gta-card {
+  position: relative;
+  background: var(--bg-white);
+  padding: 50px 40px;
+  border: 2px solid #e0e7ff;
+  transition: var(--transition-smooth);
+  overflow: hidden;
+}
+
+.gta-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: var(--transition-smooth);
+}
+
+.gta-card:hover::before {
+  transform: scaleX(1);
+}
+
+.card-glow {
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, var(--neon-blue), var(--neon-green));
+  opacity: 0;
+  z-index: -1;
+  transition: var(--transition-smooth);
+  filter: blur(20px);
+}
+
+.gta-card:hover .card-glow {
+  opacity: 0.3;
+}
+
+.gta-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-deep);
+  border-color: var(--neon-blue);
+}
+
+.neon-icon {
+  font-size: 3.5rem;
+  margin-bottom: 25px;
+  filter: drop-shadow(0 0 10px var(--neon-blue));
+  animation: icon-float 3s ease-in-out infinite;
+}
+
+@keyframes icon-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.feature-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.feature-description {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.feature-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 20px;
+  border-top: 1px solid #e0e7ff;
+}
+
+.stat-number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px var(--neon-blue);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  margin-top: 5px;
+}
+
+/* Split Layout - Insights */
+.split-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: center;
+}
+
+.insights-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin: 40px 0;
+}
+
+.insight-item {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 25px;
+  background: var(--bg-white);
+  border: 1px solid #e0e7ff;
+  transition: var(--transition-fast);
+}
+
+.insight-item:hover {
+  border-color: var(--neon-blue);
+  box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2);
+  transform: translateX(10px);
+}
+
+.insight-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.insight-text h4 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.insight-text p {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+}
+
+.btn-insight {
+  padding: 16px 40px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 2px;
+  display: inline-block;
+}
+
+.neon-btn {
+  background: var(--neon-blue);
+  color: var(--bg-white);
+  border: none;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+  transition: var(--transition-fast);
+}
+
+.neon-btn:hover {
+  box-shadow: var(--glow-neon);
+  transform: translateY(-3px);
+}
+
+/* Visual Box */
+.split-visual {
+  position: relative;
+}
+
+.visual-box {
+  background: var(--bg-white);
+  padding: 60px;
+  border: 2px solid var(--neon-blue);
+  box-shadow: var(--shadow-deep);
+  position: relative;
+}
+
+.visual-box::before {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  background: linear-gradient(45deg, var(--neon-blue), var(--neon-green));
+  opacity: 0.1;
+  z-index: -1;
+  filter: blur(20px);
+}
+
+.data-visualization {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 300px;
+  gap: 20px;
+}
+
+.viz-bar {
+  flex: 1;
+  background: linear-gradient(180deg, var(--neon-blue), var(--neon-green));
+  height: var(--height);
+  animation: bar-grow 1s ease-out forwards;
+  box-shadow: 0 0 20px var(--neon-blue);
+  transform-origin: bottom;
+}
+
+@keyframes bar-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* Stats Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.stat-box {
+  text-align: center;
+  padding: 40px;
+  background: var(--bg-white);
+  border: 2px solid #e0e7ff;
+  transition: var(--transition-fast);
+}
+
+.stat-box:hover {
+  border-color: var(--neon-blue);
+  box-shadow: 0 10px 40px rgba(0, 240, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+.stat-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-green));
+  color: var(--bg-white);
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.cta-title {
+  color: var(--bg-white);
+  margin-bottom: 20px;
+}
+
+.cta-text {
+  font-size: 1.4rem;
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+.btn-cta {
+  background: var(--bg-white);
+  color: var(--neon-blue);
+  border: 2px solid var(--bg-white);
+}
+
+.btn-cta:hover {
+  background: transparent;
+  color: var(--bg-white);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+}
+
+.pulse-btn {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* Footer */
+.footer {
+  background: var(--bg-dark);
+  color: var(--bg-white);
+  padding: 60px 0 30px;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 60px;
+  margin-bottom: 40px;
+}
+
+.footer-brand .logo {
+  color: var(--bg-white);
+  margin-bottom: 15px;
+}
+
+.footer-brand p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.05rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 60px;
+}
+
+.footer-column h4 {
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.footer-column a {
+  display: block;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  margin-bottom: 12px;
+  transition: var(--transition-fast);
+}
+
+.footer-column a:hover {
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px var(--neon-blue);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .gta-title {
+    font-size: 3.5rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .split-layout {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .gta-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+}
